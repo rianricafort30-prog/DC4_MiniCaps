@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::create('matches',function(Blueprint $t){$t->id();$t->foreignId('tournament_id')->constrained()->cascadeOnDelete();$t->foreignId('home_team_id')->constrained('teams')->cascadeOnDelete();$t->foreignId('away_team_id')->constrained('teams')->cascadeOnDelete();$t->dateTime('match_date')->nullable();$t->string('venue')->nullable();$t->unsignedSmallInteger('home_score')->nullable();$t->unsignedSmallInteger('away_score')->nullable();$t->string('status')->default('scheduled');$t->timestamps();});}public function down():void{Schema::dropIfExists('matches');}};

@@ -1,0 +1,7 @@
+<?php
+namespace Database\Seeders;
+use Illuminate\Database\Seeder;use App\Models\{User,Team,Player,Tournament,MatchGame};use Illuminate\Support\Facades\Hash;
+class DatabaseSeeder extends Seeder{public function run():void{
+ foreach([['VolleyTrack Admin','admin@volleytrack.test','admin'],['Sports Staff','staff@volleytrack.test','staff'],['Read Only Viewer','viewer@volleytrack.test','viewer']] as [$name,$email,$role])User::updateOrCreate(['email'=>$email],['name'=>$name,'password'=>Hash::make('password'),'role'=>$role]);
+ $a=Team::firstOrCreate(['name'=>'Mater Dei Eagles'],['school'=>'Mater Dei College','coach'=>'Coach Santos','category'=>'Men']);$b=Team::firstOrCreate(['name'=>'Tubigon Spikers'],['school'=>'Tubigon','coach'=>'Coach Reyes','category'=>'Men']);Player::firstOrCreate(['first_name'=>'Alex','last_name'=>'Dela Cruz'],['jersey_number'=>7,'position'=>'Setter','team_id'=>$a->id]);Player::firstOrCreate(['first_name'=>'Jamie','last_name'=>'Garcia'],['jersey_number'=>12,'position'=>'Libero','team_id'=>$b->id]);$t=Tournament::firstOrCreate(['name'=>'Inter-School Volleyball Cup'],['venue'=>'Mater Dei College Gym','start_date'=>now()->toDateString(),'end_date'=>now()->addDays(2)->toDateString(),'status'=>'upcoming']);MatchGame::firstOrCreate(['tournament_id'=>$t->id,'home_team_id'=>$a->id,'away_team_id'=>$b->id],['match_date'=>now()->addDay(),'venue'=>'Main Gym','status'=>'scheduled']);
+}}
